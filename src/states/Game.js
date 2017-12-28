@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Brick from '../prefabs/Brick'
+import Paddle from '../prefabs/Paddle'
 
 
 export default class extends Phaser.State {
@@ -10,6 +11,17 @@ export default class extends Phaser.State {
   create () {
       this.setUpText();
       this.setUpBricks();
+      this.setUpPaddle();
+  }
+
+  setUpPaddle() {
+      this.paddle = new Paddle (
+          this.game,
+          this.game.world.centerX,
+          this.game.world.height - 70
+      )
+
+      this.game.add.existing(this.paddle);
   }
 
   setUpBricks() {
