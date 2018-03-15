@@ -17,6 +17,9 @@ export default class extends Phaser.State {
   preload () {}
 
   create () {
+
+      this.game.physics.arcade.checkCollision.down = false;
+
       this.setUpText();
       this.setUpBricks();
       this.setUpPaddle();
@@ -45,7 +48,29 @@ export default class extends Phaser.State {
       //add new ball to game world
       this.game.add.existing(this.ball);
 
+      this.ball.events.onOutOfBounds.add(this.ballLost, this);
+
       this.putBallOnPaddle();
+  }
+
+  ballLost() {
+      //decrement lives count
+      --this.game.global.lives;
+
+      //check End State
+      if(this.game.global.lives === 0) {
+          this.endGame();
+          return;
+      }
+
+      this.livesText.text = `Lives: ${this.game.global.lives}`;
+
+      //replace ball
+      this.putBallOnPaddle();
+  }
+
+  EndGame() {
+      
   }
 
   putBallOnPaddle() {
@@ -167,6 +192,19 @@ export default class extends Phaser.State {
       this.game.global.score += 10;
 
       this.scoreText.text = `Score: ${this.game.global.score}`;
+
+      //check to see if end of level
+      if(this.bricks.countLiving() > 0) {
+          return;
+      }
+
+      this.game.global.level += 1;
+      this.levelText.text = `Level: ${this.game.global.level}`;
+
+      //reset bricks and paddle position
+      this.putBallOnPaddle();
+      this.generateBricks(this.bricks);
+
   }
 
   render () {
