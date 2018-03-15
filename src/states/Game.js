@@ -2,9 +2,17 @@
 import Phaser from 'phaser'
 import Brick from '../prefabs/Brick'
 import Paddle from '../prefabs/Paddle'
+import Ball from '../prefabs/Ball'
 
 
 export default class extends Phaser.State {
+
+  constructor() {
+      super();
+
+      this.ballOnPaddle = true;
+  }
+
   init () {}
   preload () {}
 
@@ -12,6 +20,22 @@ export default class extends Phaser.State {
       this.setUpText();
       this.setUpBricks();
       this.setUpPaddle();
+      this.setUpBall();
+  }
+
+  setUpBall() {
+      this.ball = new Ball(this.game);
+
+      //add new ball to game world
+      this.game.add.existing(this.ball);
+
+      this.putBallOnPaddle();
+  }
+
+  putBallOnPaddle() {
+      this.BallOnPaddle = true;
+
+      this.ball.reset(this.paddle.body.x, this.paddle.body.y - this.paddle.body.height);
   }
 
   setUpPaddle() {
@@ -74,6 +98,14 @@ export default class extends Phaser.State {
                 boundsAlignH: align
                 }
             ).setTextBounds(0,0,this.game.world.width, 0)
+  }
+
+  update() {
+      if(this.ballOnPaddle) {
+
+          //casue ball drag behind paddle at start
+          this.ball.body.x = this.paddle.x - (this.ball.body.width/2);
+      }
   }
 
   render () {

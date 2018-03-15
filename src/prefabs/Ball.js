@@ -12,6 +12,7 @@ class Ball extends Phaser.Sprite {
         this.checkWorldBounds = true;
         this.body.collideWorldBounds = true;
 
+        //enable bounce upon collision
         this.body.bounce.set(1);
 
     }
