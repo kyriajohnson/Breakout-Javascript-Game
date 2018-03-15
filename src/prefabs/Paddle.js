@@ -17,6 +17,13 @@ class Paddle extends Phaser.Sprite {
 
     //facilitate movement
     update() {
+
+        //forces paddle to start in middle of screen
+        //don't want to follow mouse input at game start
+        if(this.game.input.x === 0) {
+            return;
+        }
+
         //bind x position of paddle to mouse x position
         this.x = this.game.input.x;
 

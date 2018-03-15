@@ -21,6 +21,22 @@ export default class extends Phaser.State {
       this.setUpBricks();
       this.setUpPaddle();
       this.setUpBall();
+
+      this.game.input.onDown.add(this.releaseBall, this);
+  }
+
+  releaseBall() {
+
+      //do not allow second release if ball already launched
+      if(!this.ballOnPaddle) {
+        return;
+      }
+
+      //unstick from paddle
+      this.ballOnPaddle = false;
+
+      this.ball.body.velocity.x = -30;
+      this.ball.body.velocity.y = -350;
   }
 
   setUpBall() {
@@ -33,7 +49,7 @@ export default class extends Phaser.State {
   }
 
   putBallOnPaddle() {
-      this.BallOnPaddle = true;
+      this.ballOnPaddle = true;
 
       this.ball.reset(this.paddle.body.x, this.paddle.body.y - this.paddle.body.height);
   }
