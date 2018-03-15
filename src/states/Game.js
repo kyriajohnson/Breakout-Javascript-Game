@@ -122,6 +122,47 @@ export default class extends Phaser.State {
           //casue ball drag behind paddle at start
           this.ball.body.x = this.paddle.x - (this.ball.body.width/2);
       }
+
+      //collision detection
+
+      //ball -> paddle
+      this.game.physics.arcade.collide(
+          this.ball, //host object
+          this.paddle, // target collision object
+          this.ballHitPaddle, //triggered method
+          null,
+          this          //reference game world
+      )
+
+      //ball -> brick
+      this.game.physics.arcade.collide(
+          this.ball, //host object
+          this.bricks, // target collision object
+          this.ballHitBrick, //triggered method
+          null,
+          this          //reference game world
+      )
+  }
+
+  ballHitPaddle(ball, paddle) {
+      let diff = 0;
+
+      //if ball collides with left side of paddle
+      if(ball.x < paddle.x) {
+          diff = paddle.x - ball.x;
+          ball.body.velocity.x = (-10 * diff);
+      }
+
+      //if ball collides with right side of paddle
+      if(ball.x > paddle.x) {
+          diff = ball.x - paddle.x;
+          ball.body.velocity.x = (10 * diff);
+      }
+  }
+
+  ballHitBrick(ball, brick) {
+      //destroy upon collision
+      brick.kill();
   }
 
   render () {
