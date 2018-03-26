@@ -69,8 +69,8 @@ export default class extends Phaser.State {
       this.putBallOnPaddle();
   }
 
-  EndGame() {
-      
+  endGame() {
+      this.game.state.start('GameOver');
   }
 
   putBallOnPaddle() {
