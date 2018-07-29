@@ -64,6 +64,7 @@ export default class extends Phaser.State {
       }
 
       this.livesText.text = `Lives: ${this.game.global.lives}`;
+      this.game.global.collisionCount = 0;
 
       //replace ball
       this.putBallOnPaddle();
@@ -174,20 +175,26 @@ export default class extends Phaser.State {
 
       //if ball collides with left side of paddle
       if(ball.x < paddle.x) {
+
           diff = paddle.x - ball.x;
-          ball.body.velocity.x = (-10 * diff);
+          ball.body.velocity.x = (-10 * diff) + (20 * this.game.global.collisionCount);
       }
 
       //if ball collides with right side of paddle
       if(ball.x > paddle.x) {
+
           diff = ball.x - paddle.x;
-          ball.body.velocity.x = (10 * diff);
+          ball.body.velocity.x = (10 * diff) + (20 * this.game.global.collisionCount);
       }
   }
 
   ballHitBrick(ball, brick) {
       //destroy upon collision
       brick.kill();
+
+      //increment collision counter
+      this.game.global.collisionCount += 1;
+
 
       this.game.global.score += 10;
 
