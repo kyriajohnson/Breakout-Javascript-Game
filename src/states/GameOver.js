@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import {clone} from 'lodash'
+import globals from './globals/index'
 
 export default class extends Phaser.State {
   init () {}
@@ -21,5 +23,20 @@ export default class extends Phaser.State {
       )
 
      text.anchor.set(0.5);
+
+     //trigger game restart
+     this.input.onDown.add(this.restartGame, this);
+
+
+  }
+
+  resetGlobalVariables() {
+     this.game.global = clone(globals);
+  }
+
+  restartGame() {
+
+      this.resetGlobalVariables();
+      this.game.state.start('Game');
   }
 }
