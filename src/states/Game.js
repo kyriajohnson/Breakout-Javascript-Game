@@ -38,8 +38,8 @@ export default class extends Phaser.State {
       //unstick from paddle
       this.ballOnPaddle = false;
 
-      this.ball.body.velocity.x = -30;
-      this.ball.body.velocity.y = -350;
+      this.ball.body.velocity.x = -50;
+      this.ball.body.velocity.y = -600;
   }
 
   setUpBall() {
